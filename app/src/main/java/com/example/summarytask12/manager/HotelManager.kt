@@ -5,7 +5,7 @@ import com.example.summarytask12.model.booking.Booking
 import com.example.summarytask12.model.booking.BookingStatus
 import com.example.summarytask12.model.payment.Payment
 import com.example.summarytask12.model.payment.PaymentMethod
-import com.example.summarytask12.model.person.Guest
+import com.example.summarytask12.model.Guest.Guest
 import com.example.summarytask12.model.room.Room
 import com.example.summarytask12.model.room.RoomStatus
 import java.util.UUID
@@ -17,7 +17,7 @@ import java.util.UUID
  * - Quản lý đặt phòng (Booking)
  * - Quản lý thanh toán (Payment)
  */
-object HotelManager {
+class HotelManager {
 
     private val roomList: MutableList<Room> = mutableListOf()
     private val guestList: MutableList<Guest> = mutableListOf()

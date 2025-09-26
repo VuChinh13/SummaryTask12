@@ -25,7 +25,7 @@ object MessagesOutput {
     const val GOODBYE = "Tam biet!"
 
     // Menu
-    val MENU: String = """
+    const val MENU: String = """
 ===== QUAN LY KHACH SAN =====
 1. Them phong
 2. Xoa phong
@@ -36,5 +36,5 @@ object MessagesOutput {
 7. Tra phong (Check-out)
 8. Sap xep theo gia
 0. Thoat
-""".trimIndent()
+"""
 }

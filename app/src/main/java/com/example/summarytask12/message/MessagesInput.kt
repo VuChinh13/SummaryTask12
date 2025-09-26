@@ -12,7 +12,7 @@ object MessagesInput {
     const val ENTER_ROOM_PRICE = "Nhap gia phong: "
     const val ENTER_ROOM_CAPACITY = "Nhap suc chua (so nguoi): "
     const val ENTER_ROOM_TYPE = "Nhap loai phong (Single/Double/Twin/Deluxe/Suite): "
-    const val ENTER_ROOM_STATUS = "Nhap tinh trang (Trong/Dang thue/Dang don/Dang sua chua): "
+    const val ENTER_ROOM_STATUS = "Nhap tinh trang (Available/Occupied/Cleaning/Maintenance): "
     const val ENTER_ROOM_PRICE_OPTIONAL = "Nhap gia phong (bo qua neu khong doi): "
     const val ENTER_ROOM_STATUS_OPTIONAL = "Nhap tinh trang (bo qua neu khong doi): "
 
@@ -28,5 +28,6 @@ object MessagesInput {
     const val ENTER_SORT_ORDER = "Chon thu tu (1. Tang dan | 2. Giam dan): "
 
     // Payment
-    const val ENTER_PAYMENT_METHOD = "Chon phuong thuc thanh toan (Cash/Credit_Card/Debit_Card/Online): "
+    const val ENTER_PAYMENT_METHOD =
+        "Chon phuong thuc thanh toan (Cash/Credit_Card/Debit_Card/Online): "
 }
