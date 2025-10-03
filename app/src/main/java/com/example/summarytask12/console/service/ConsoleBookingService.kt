@@ -4,12 +4,12 @@ import com.example.summarytask12.console.input.InputReader
 import com.example.summarytask12.manager.HotelManager
 import com.example.summarytask12.message.MessagesInput
 import com.example.summarytask12.message.MessagesOutput
+import com.example.summarytask12.model.employee.Employee
 
-/**
- * Xử lý nghiệp vụ liên quan đến booking (qua console)
- */
-class ConsoleBookingService(val hotelManager: HotelManager) {
-
+class ConsoleBookingService(
+    val hotelManager: HotelManager,
+    private val currentEmployee: Employee
+) {
     val inputReader = InputReader()
 
     fun checkIn() {
@@ -29,20 +29,18 @@ class ConsoleBookingService(val hotelManager: HotelManager) {
                 email = guestEmail,
                 idNumber = guestIdNumber ?: ""
             )
-            val message = hotelManager.checkIn(roomId, guestName, guestPhone, guestId, nights)
+            val message = hotelManager.checkIn(roomId, guestName, guestPhone, guestId, nights, by = currentEmployee)
             println(message)
         }
     }
-
 
     fun checkOut() {
         val roomId = inputReader.readIntStrict(MessagesInput.ENTER_ROOM_ID) ?: return
         val paymentMethod =
             inputReader.parsePaymentMethod(inputReader.readNonBlank(MessagesInput.ENTER_PAYMENT_METHOD))
                 ?: run { println(MessagesOutput.INVALID_INPUT); return }
-        val (message, totalAmount) = hotelManager.checkOut(roomId, paymentMethod)
+        val (message, totalAmount) = hotelManager.checkOut(roomId, paymentMethod, by = currentEmployee)
         println(message)
         totalAmount?.let { println("${MessagesOutput.TOTAL_AMOUNT_PREFIX}${"%,.0f".format(it)} VND") }
     }
-
 }

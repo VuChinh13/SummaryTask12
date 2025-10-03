@@ -3,6 +3,7 @@ package com.example.summarytask12.message
 /**
  * Message cho Output
  */
+
 object MessagesOutput {
     const val NOT_ROOM = "Khong the tim thay phong"
     const val ROOM_NOT_AVAILABLE = "Phong khong co san"
@@ -23,8 +24,8 @@ object MessagesOutput {
     const val TOTAL_AMOUNT_PREFIX = "Tong tien: "
     const val INVALID_CHOICE = "Lua chon khong hop le."
     const val GOODBYE = "Tam biet!"
+    const val PERMISSION_DENIED = "Khong co quyen thuc hien chuc nang nay." // <-- thêm
 
-    // Menu
     const val MENU: String = """
 ===== QUAN LY KHACH SAN =====
 1. Them phong
