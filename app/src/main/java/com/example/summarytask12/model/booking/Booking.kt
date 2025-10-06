@@ -1,13 +1,5 @@
 package com.example.summarytask12.model.booking
 
-/**
- * Phiếu đặt
- * - bookingId: mã phiếu
- * - roomId / guestId: liên kết đến Room & Guest
- * - nights: số đêm
- * - ratePerNight: "chốt giá" tại thời điểm check-in
- * - status: trạng thái
- */
 data class Booking(
     val bookingId: String,
     val roomId: Int,

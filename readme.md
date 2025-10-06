@@ -1,83 +1,62 @@
-# Hệ thống Quản lý Khách sạn (Basic)
+# 🏨 Hotel Management System (Basic)
 
-Đây là **Hệ thống Quản lý Khách sạn** đơn giản.  
-Hệ thống này cho phép quản lý **phòng**, **khách**, **đặt phòng**, và **thanh toán** cho khách sạn.
+## 💡 Giới thiệu
+Ứng dụng **Quản lý Khách sạn** được viết bằng **Kotlin**, chạy trên **console**.  
+Hệ thống mô phỏng các nghiệp vụ cơ bản trong khách sạn: **quản lý phòng, khách hàng, đặt phòng, thanh toán và nhân viên.**  
+Dành cho **lễ tân (Receptionist)** và **quản lý khách sạn (Manager)**.
 
-## Tính năng
+---
 
-### **Quản lý phòng (Room)**:
-- Thêm, xóa, chỉnh sửa thông tin phòng.
-- Hiển thị danh sách phòng.
-- Tìm kiếm phòng theo **ID**.
-- Sắp xếp phòng theo **giá**.
+## 👩‍💼 Phân quyền sử dụng
 
-### **Quản lý khách (Guest)**:
-- Tạo mới hoặc lấy thông tin khách đã tồn tại.
-- Lưu thông tin khách: tên, số điện thoại, email, giấy tờ tùy thân.
-- Tích điểm khách hàng (loyalty points) sau khi check-out.
+### 🧾 Lễ tân (Receptionist)
+- Xem danh sách phòng
+- Tìm kiếm phòng theo ID
+- Check-in (đặt phòng)
+- Check-out (trả phòng, thanh toán)
+- Sắp xếp phòng theo giá
 
-### **Đặt phòng (Booking)**:
-- **Check-in**: Nhận phòng cho khách, cập nhật trạng thái phòng.
-- **Check-out**: Trả phòng, tính tiền dựa trên số đêm và giá phòng.
+### 🧑‍💼 Quản lý (Manager)
+Bao gồm tất cả quyền của lễ tân **và thêm quyền quản trị:**
+- Thêm / xóa / chỉnh sửa thông tin phòng
+- Thêm / sửa / xóa nhân viên
+- Xem danh sách nhân viên
 
-### **Thanh toán (Payment)**:
-- Sinh **hóa đơn thanh toán**.
-- Hỗ trợ nhiều phương thức thanh toán: **Tiền mặt**, **Thẻ tín dụng**, **Thẻ ghi nợ**, **Thanh toán trực tuyến**.
+---
 
-### **Quản lý trạng thái phòng (Room Status)**:
-- **AVAILABLE**: Phòng trống, có thể đặt.
-- **OCCUPIED**: Phòng đang có khách.
-- **CLEANING**: Phòng đang được dọn.
-- **MAINTENANCE**: Phòng đang bảo trì.
+## ⚙️ Chức năng chính
 
-## Cấu trúc Dự án
+- **Quản lý Phòng:** thêm, xóa, sửa, tìm kiếm, sắp xếp
+- **Quản lý Khách:** lưu thông tin khách, tự động tạo khi check-in
+- **Đặt Phòng:** check-in, check-out, quản lý trạng thái
+- **Thanh Toán:** tự động sinh hóa đơn, hỗ trợ nhiều phương thức
+- **Quản lý Nhân viên:** đăng nhập, phân quyền, chỉnh sửa thông tin
 
-### **1. console/**
-Chứa các lớp xử lý giao diện người dùng qua console.
-- **input/**: Chứa các lớp nhập liệu từ người dùng.
-  - **InputReader.kt**: Cung cấp các phương thức đọc dữ liệu từ người dùng, kiểm tra tính hợp lệ của dữ liệu.
-- **output/**: Chứa các lớp hiển thị thông tin ra console.
-  - **OutputPrinter.kt**: In menu, thông báo, danh sách phòng ra console.
-- **service/**: Chứa các lớp dịch vụ cho các hành động trong hệ thống.
-  - **ConsoleBookingService.kt**: Xử lý đặt phòng và trả phòng.
-  - **ConsoleRoomService.kt**: Xử lý các chức năng liên quan đến phòng như thêm, xóa, sửa, và hiển thị phòng.
+---
 
-### **2. data/**
-Chứa các lớp xử lý dữ liệu và nạp dữ liệu mẫu.
-- **InitialHotelData.kt**: Nạp dữ liệu mẫu vào hệ thống khi khởi động.
+### 🏗️ Kiến trúc tổng thể
 
-### **3. main/**
-Chứa điểm bắt đầu của chương trình.
-- **Main.kt**: Hàm `main` khởi chạy ứng dụng, hiển thị menu chức năng, vòng lặp chính.
+![System Architecture](images/system_architecture.jpg)
 
-### **4. manager/**
-Chứa các lớp quản lý nghiệp vụ.
-- **HotelManager.kt**: Quản lý các hoạt động nghiệp vụ của khách sạn như quản lý phòng, khách, đặt phòng và thanh toán.
 
-### **5. message/**
-Chứa các thông báo và chuỗi cần thiết để giao tiếp với người dùng.
-- **MessagesInput.kt**: Các chuỗi prompt yêu cầu người dùng nhập dữ liệu.
-- **MessagesOutput.kt**: Các thông báo kết quả hoặc lỗi cho người dùng.
+## 🧱 Cấu trúc Dự án
 
-### **6. model/**
-Chứa các lớp mô hình dữ liệu.
-- **booking/**:
-  - **Booking.kt**: Lớp đại diện cho thông tin đặt phòng.
-  - **BookingStatus.kt**: Trạng thái của đặt phòng.
-- **payment/**:
-  - **Payment.kt**: Lớp đại diện cho thông tin thanh toán.
-  - **PaymentMethod.kt**: Các phương thức thanh toán.
-- **guest/**:
-  - **Guest.kt**: Lớp đại diện cho khách lưu trú.
-- **room/**:
-  - **Room.kt**: Lớp đại diện cho phòng.
-  - **RoomStatus.kt**: Trạng thái phòng.
-  - **RoomType.kt**: Các loại phòng (Single, Double, Suite, ...).
+summarytask12/
+├── console/
+│ ├── controller/ # Xử lý logic nhập/xuất cho Room, Booking, Employee
+│ ├── input/ # InputReader - đọc dữ liệu người dùng
+│ └── output/ # OutputPrinter - hiển thị menu, danh sách, kết quả
+│
+├── data/ # Dữ liệu mẫu ban đầu (InitialHotelData)
+├── manager/ # HotelManagerService - điều phối trung tâm
+├── message/ # MessagesInput / MessagesOutput - thông báo hệ thống
+├── model/ # Lớp mô hình dữ liệu (Room, Booking, Guest, Payment, ...)
+├── service/ # Lớp nghiệp vụ (RoomService, BookingService, ...)
+└── main/ # Main.kt - khởi chạy chương trình, hiển thị menu
 
-## Cấu trúc các lớp chính:
-
-- **Main.kt**: Khởi động ứng dụng và hiển thị menu chính.
-- **HotelManager.kt**: Quản lý các nghiệp vụ chính của khách sạn như thêm/xóa/sửa phòng, quản lý khách và thanh toán.
-- **ConsoleBookingService.kt** và **ConsoleRoomService.kt**: Cung cấp các dịch vụ liên quan đến đặt phòng và phòng qua console.
-- **InputReader.kt** và **OutputPrinter.kt**: Xử lý việc nhập và in dữ liệu trên giao diện dòng lệnh.
-
+## ▶️ Cách chạy chương trình
+1. Mở dự án trong IDE.
+2. Chạy file **`Main.kt`** tại:
+   src/main/kotlin/com/example/summarytask12/main/Main.kt
+3. Đăng nhập bằng **ID nhân viên mẫu** (ví dụ: `M01` hoặc `E01`).
+4. Làm theo hướng dẫn trong **menu console** để thao tác theo vai trò.

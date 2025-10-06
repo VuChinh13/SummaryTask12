@@ -1,20 +1,23 @@
-package com.example.summarytask12.model.Guest
+package com.example.summarytask12.model.guest
 
+import com.example.summarytask12.model.person.Person
 import java.time.LocalDate
 
-/**
- * Khách lưu trú
- * - guestId: định danh duy nhất, dùng để liên kết Booking
- * - idNumber: số giấy tờ tùy thân
- * - loyaltyPoints: điểm tích lũy
- */
 class Guest(
     val guestId: String,
-    val fullName: String,
-    val phone: String,
-    val email: String?,
+    fullName: String,
+    birthDate: LocalDate? = null,
+    address: String,
+    gender: String,
+    phone: String,
+    email: String?,
     var idNumber: String,
-    var address: String? = null,
-    var birthDate: LocalDate? = null,
     var loyaltyPoints: Int = 0
+) : Person(
+    fullName = fullName,
+    birthDate = birthDate,
+    address = address,
+    gender = gender,
+    phone = phone,
+    email = email
 )

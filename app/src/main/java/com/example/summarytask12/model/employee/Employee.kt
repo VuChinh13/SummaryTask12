@@ -1,16 +1,16 @@
 package com.example.summarytask12.model.employee
 
 import com.example.summarytask12.model.person.Person
+import java.time.LocalDate
 
-abstract class Employee(
-    id: String,
+class Employee(
+    val id: String,
     fullName: String,
+    birthDate: LocalDate? = null,
+    address: String,
+    gender: String,
     phone: String,
     email: String?,
-    val role: EmployeeRole
-) : Person(id, fullName, phone, email) {
-
-    // Hook (tuỳ chọn) để log/kiểm tra trước/sau các tác vụ quản trị
-    open fun beforeAddRoom(roomId: Int) {}
-    open fun afterAddRoom(roomId: Int) {}
-}
+    val role: EmployeeRole,
+    var hireDate: LocalDate = LocalDate.now(),
+) : Person(fullName, birthDate, address, gender, phone, email)

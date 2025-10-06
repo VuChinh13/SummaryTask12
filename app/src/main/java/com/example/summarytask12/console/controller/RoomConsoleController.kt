@@ -1,44 +1,42 @@
-package com.example.summarytask12.console.service
+package com.example.summarytask12.console.controller
 
 import com.example.summarytask12.console.input.InputReader
 import com.example.summarytask12.console.output.OutputPrinter
-import com.example.summarytask12.manager.HotelManager
+import com.example.summarytask12.manager.HotelManagerService
 import com.example.summarytask12.message.MessagesInput
 import com.example.summarytask12.message.MessagesOutput
-import com.example.summarytask12.model.employee.Employee
 import com.example.summarytask12.model.room.Room
 import com.example.summarytask12.model.room.RoomStatus
 
-/**
- * Xử lý nghiệp vụ liên quan đến phòng (qua console)
- */
-class ConsoleRoomService(
-    private val hotelManager: HotelManager,
-    private val currentEmployee: Employee
+class RoomConsoleController(
+    private val hotelManagerService: HotelManagerService,
+    private val inputReader: InputReader = InputReader(),
+    private val outputPrinter: OutputPrinter = OutputPrinter()
 ) {
-    val inputReader = InputReader()
-    val outputPrinter = OutputPrinter()
 
     fun addRoom() {
         inputReader.apply {
             val roomId = readIntStrict(MessagesInput.ENTER_ROOM_ID) ?: return
-            if (hotelManager.isRoomExists(roomId)) {
+
+            if (hotelManagerService.findRoomById(roomId) != null) {
                 println(MessagesOutput.ROOM_ID_ALREADY_EXISTS)
                 return
             }
+
             val roomNumber = readNonBlank(MessagesInput.ENTER_ROOM_NUMBER)
             val price = readDoubleStrict(MessagesInput.ENTER_ROOM_PRICE) ?: return
             val capacity = readIntStrict(MessagesInput.ENTER_ROOM_CAPACITY) ?: return
-            val typeText = readNonBlank(MessagesInput.ENTER_ROOM_TYPE)
-            val roomType =
-                parseRoomType(typeText) ?: run { println(MessagesOutput.INVALID_INPUT); return }
-            val statusText = readNonBlank(MessagesInput.ENTER_ROOM_STATUS)
-            val roomStatus =
-                parseRoomStatus(statusText) ?: run { println(MessagesOutput.INVALID_INPUT); return }
 
-            val added = hotelManager.addRoom(
-                Room(roomId, roomNumber, price, capacity, roomType, roomStatus),
-                by = currentEmployee
+            val typeText = readNonBlank(MessagesInput.ENTER_ROOM_TYPE)
+            val roomType = inputReader.parseRoomType(typeText)
+                ?: run { println(MessagesOutput.INVALID_INPUT); return }
+
+            val statusText = readNonBlank(MessagesInput.ENTER_ROOM_STATUS)
+            val roomStatus = inputReader.parseRoomStatus(statusText)
+                ?: run { println(MessagesOutput.INVALID_INPUT); return }
+
+            val added = hotelManagerService.addRoom(
+                Room(roomId, roomNumber, price, capacity, roomType, roomStatus)
             )
             println(if (added) MessagesOutput.ROOM_ADDED_SUCCESS else MessagesOutput.ROOM_ALREADY_EXISTS)
         }
@@ -46,14 +44,14 @@ class ConsoleRoomService(
 
     fun removeRoom() {
         val roomId = inputReader.readIntStrict(MessagesInput.ENTER_ROOM_ID) ?: return
-        val removed = hotelManager.removeRoom(roomId, by = currentEmployee)
+        val removed = hotelManagerService.removeRoom(roomId)
         println(if (removed) MessagesOutput.ROOM_REMOVED_SUCCESS else MessagesOutput.NOT_ROOM)
     }
 
     fun editRoom() {
         val roomId = inputReader.readIntStrict(MessagesInput.ENTER_ROOM_ID) ?: return
-        val existingRoom =
-            hotelManager.findRoomById(roomId) ?: run { println(MessagesOutput.NOT_ROOM); return }
+        val existing = hotelManagerService.findRoomById(roomId)
+            ?: run { println(MessagesOutput.NOT_ROOM); return }
 
         print(MessagesInput.ENTER_ROOM_PRICE_OPTIONAL)
         val priceInput = readLine()?.trim().orEmpty()
@@ -69,23 +67,17 @@ class ConsoleRoomService(
                 if (it == null) println(MessagesOutput.INVALID_INPUT)
             }
 
-        val updated = hotelManager.updateRoom(roomId, newPrice, newStatus, by = currentEmployee)
+        val updated = hotelManagerService.updateRoom(roomId, newPrice, newStatus)
         println(if (updated) MessagesOutput.UPDATE_SUCCESS else MessagesOutput.NOT_ROOM)
-        outputPrinter.showRoomList(listOf(existingRoom))
+        outputPrinter.showRoomList(listOf(existing))
     }
 
-    fun displayAllRooms() {
-        outputPrinter.showRoomList(hotelManager.getAllRooms())
-    }
+    fun displayAllRooms() = outputPrinter.showRoomList(hotelManagerService.getAllRooms())
 
     fun searchRoomById() {
         val roomId = inputReader.readIntStrict(MessagesInput.ENTER_ROOM_ID) ?: return
-        val room = hotelManager.findRoomById(roomId)
-        if (room == null) println(MessagesOutput.NOT_ROOM) else outputPrinter.showRoomList(
-            listOf(
-                room
-            )
-        )
+        val room = hotelManagerService.findRoomById(roomId)
+        if (room == null) println(MessagesOutput.NOT_ROOM) else outputPrinter.showRoomList(listOf(room))
     }
 
     fun sortRoomsByPrice() {
@@ -97,7 +89,7 @@ class ConsoleRoomService(
                 println(MessagesOutput.INVALID_CHOICE); return
             }
         }
-        val sortedRooms = hotelManager.sortByPrice(ascending)
-        outputPrinter.showRoomList(sortedRooms)
+        val sorted = hotelManagerService.sortByPrice(ascending)
+        outputPrinter.showRoomList(sorted)
     }
 }

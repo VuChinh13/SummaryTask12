@@ -5,8 +5,7 @@ import java.time.LocalDateTime
 /**
  * Hóa đơn/Thanh toán cho một booking
  */
-data class
-Payment(
+data class Payment(
     val paymentId: String,
     val bookingId: String,
     val amount: Double,

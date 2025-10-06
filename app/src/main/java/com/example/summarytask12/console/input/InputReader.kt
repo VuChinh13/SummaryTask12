@@ -8,7 +8,8 @@ import com.example.summarytask12.model.room.RoomType
 /**
  * Lớp InputReader dùng để đọc dữ liệu từ console.
  * Cung cấp các phương thức giúp nhập số nguyên, số thực, chuỗi, và các lựa chọn từ người dùng.
- * Các phương thức sẽ kiểm tra tính hợp lệ của dữ liệu nhập vào và yêu cầu người dùng nhập lại nếu dữ liệu không hợp lệ.
+ * Các phương thức sẽ kiểm tra tính hợp lệ của dữ liệu nhập vào và yêu cầu người dùng nhập lại
+ * nếu dữ liệu không hợp lệ.
  */
 class InputReader {
     fun readNonBlank(promptMessage: String): String {
@@ -20,14 +21,10 @@ class InputReader {
         }
     }
 
-    fun readDoubleOrNull(promptMessage: String): Double? {
+    fun readDoubleStrict(promptMessage: String): Double? {
         print(promptMessage)
         val input = readLine()?.trim()
-        return input?.toDoubleOrNull()
-    }
-
-    fun readDoubleStrict(promptMessage: String): Double? {
-        val value = readDoubleOrNull(promptMessage)
+        val value = input?.toDoubleOrNull()
         if (value == null) println(MessagesOutput.ENTER_VALID_DECIMAL_NUMBER)
         return value
     }
@@ -39,15 +36,11 @@ class InputReader {
     }
 
     fun readIntStrict(promptMessage: String): Int? {
-        val value = readIntOrNull(promptMessage)
-        if (value == null) println(MessagesOutput.ENTER_VALID_INTEGER_NUMBER)
-        return value
-    }
-
-    fun readIntOrNull(promptMessage: String): Int? {
         print(promptMessage)
         val input = readLine()?.trim()
-        return input?.toIntOrNull()
+        val value = input?.toIntOrNull()
+        if (value == null) println(MessagesOutput.ENTER_VALID_INTEGER_NUMBER)
+        return value
     }
 
     fun parseRoomType(raw: String): RoomType? = when (normalize(raw)) {
